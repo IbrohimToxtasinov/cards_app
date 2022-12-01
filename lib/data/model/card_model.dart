@@ -9,7 +9,7 @@ class CardsModel {
   final String cardCurrency;
   final String expireDate;
   final String iconImage;
-  final List<ColorsModel> colors;
+  final ColorsModel colors;
 
   CardsModel(
       {required this.id,
@@ -32,9 +32,7 @@ class CardsModel {
       cardCurrency: json['card_currency'] ?? "",
       expireDate: json['expire_date'] ?? "",
       iconImage: json['icon_image'] ?? "",
-      colors: (json['colors'] as List)
-          .map((color) => ColorsModel.fromJson(color))
-          .toList(),
+      colors:   ColorsModel.fromJson(json["colors"]),
     );
   }
 }

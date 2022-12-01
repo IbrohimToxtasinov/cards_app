@@ -9,6 +9,7 @@ class ApiService {
       Response response = await http
           .get(Uri.parse("https://banking-api.free.mockoapp.net/user_cards"));
       if (response.statusCode == 200) {
+        print(response.body);
         var jsonData = jsonDecode(response.body);
         List<CardsModel> categories = (jsonData as List?)
                 ?.map((item) => CardsModel.fromJson(item))
@@ -19,6 +20,7 @@ class ApiService {
         throw Exception();
       }
     } catch (e) {
+      print(e.toString());
       throw Exception(e);
     }
   }

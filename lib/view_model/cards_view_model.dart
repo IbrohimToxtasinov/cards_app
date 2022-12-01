@@ -11,11 +11,11 @@ class CardsViewModel extends ChangeNotifier {
 
   bool isLoading = false;
 
-  CardsModel? cardsData;
+  List<CardsModel> cards = [];
 
   fetchCardsInfo() async {
     notify(true);
-    cardsData = (await _appRepository.getCardsInfo()) as CardsModel?;
+    cards = await _appRepository.getCardsInfo();
     notify(false);
   }
 
