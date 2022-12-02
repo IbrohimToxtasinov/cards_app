@@ -14,7 +14,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => cardsViewModel),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

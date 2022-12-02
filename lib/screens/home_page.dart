@@ -1,4 +1,7 @@
+import 'package:cards_app/utils/images.dart';
+import 'package:cards_app/utils/styles.dart';
 import 'package:cards_app/view_model/cards_view_model.dart';
+import 'package:color_parser/color_names.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +13,11 @@ class HomePage extends StatelessWidget {
     colornew = colornew.replaceAll("#", "");
     int colorint = int.parse(colornew);
     return colorint;
+  }
+    hexcardnumber(String colorhexcode) {
+    String colornew = colorhexcode;
+    colornew = colornew.replaceAll(" ", "  ");
+    return colornew;
   }
 
   @override
@@ -35,8 +43,9 @@ class HomePage extends StatelessWidget {
                                 return Container(
                                   margin: const EdgeInsets.only(
                                       top: 15, bottom: 15, left: 20, right: 20),
-                                  padding: const EdgeInsets.all(20),
-                                  height: 200,
+                                  padding: const EdgeInsets.only(
+                                      top: 11, right: 20, left: 20, bottom: 14),
+                                  height: 220,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -52,17 +61,40 @@ class HomePage extends StatelessWidget {
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        cardsViewModel
-                                            .cards[index].bankName,
-                                        style: const TextStyle(
-                                            fontSize: 22,
-                                            color: Colors.white),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          SizedBox(
+                                              height: 40,
+                                          child: Image.asset(AppImages.bankIcon[index]),
+                                          ),
+                                          Text(
+                                            cardsViewModel
+                                                .cards[index].bankName,
+                                            style: const TextStyle(
+                                                fontSize: 22,
+                                                color: Colors.white),
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                              height: 40,
+                                              width: 60,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                    image: DecorationImage(image: NetworkImage(cardsViewModel.cards[index].iconImage))
+                                              )),
+                                        ],
                                       ),
                                       Container(
-                                        margin: const EdgeInsets.only(left: 20, top: 15),
+                                        margin: const EdgeInsets.only(
+                                            left: 20, top: 15),
                                         height: 30,
                                         width: 50,
                                         decoration: BoxDecoration(
@@ -71,13 +103,60 @@ class HomePage extends StatelessWidget {
                                               BorderRadius.circular(5),
                                         ),
                                         child: Column(
-                                          children: [
-                                            const Divider(thickness: 1, color: Colors.black, height: 12,),
-                                            const Divider(thickness: 1, color: Colors.black, height: 2),
-                                            const Divider(thickness: 1, color: Colors.black),
+                                          children: const [
+                                            Divider(
+                                              thickness: 0.5,
+                                              color: Colors.black,
+                                              height: 14,
+                                            ),
+                                            Divider(
+                                                thickness: 0.5,
+                                                color: Colors.black,
+                                                height: 2),
+                                            Divider(
+                                                thickness: 0.5,
+                                                color: Colors.black,
+                                                height: 14),
                                           ],
                                         ),
-                                      )
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 18, top: 15),
+                                        child: Text(
+                                          hexcardnumber(cardsViewModel
+                                              .cards[index].cardNumber),
+                                          style: MyStyles.credic.copyWith(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400)
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              84,
+                                        ),
+                                        child: Text("01/24",
+                                            style: MyStyles.credic.copyWith(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w400)),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                              left: 18,
+                                            ),
+                                            child: Text(
+                                              "Ibrohim Toxtasinov",
+                                              style: MyStyles.regular.copyWith(fontSize: 16, color: Colors.white,),
+                                            ),
+                                          ),
+                                          const Icon(Icons.more_vert, color: Colors.white, size: 36),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 );
