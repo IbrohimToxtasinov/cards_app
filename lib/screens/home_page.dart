@@ -1,30 +1,43 @@
 import 'package:cards_app/utils/images.dart';
 import 'package:cards_app/utils/styles.dart';
 import 'package:cards_app/view_model/cards_view_model.dart';
-import 'package:color_parser/color_names.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   hexColor(String colorhexcode) {
     String colornew = '0xff$colorhexcode';
     colornew = colornew.replaceAll("#", "");
     int colorint = int.parse(colornew);
     return colorint;
   }
-    hexcardnumber(String colorhexcode) {
+
+  hexcardnumber(String colorhexcode) {
     String colornew = colorhexcode;
     colornew = colornew.replaceAll(" ", "  ");
     return colornew;
   }
 
   @override
+  void initState() {
+    Future.microtask(() => 
+    context.read<CardsViewModel>().fetchCardsInfo());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("My Cards"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +46,7 @@ class HomePage extends StatelessWidget {
           Consumer<CardsViewModel>(
             builder: (context, cardsViewModel, child) {
               return cardsViewModel.isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? Center(child: Lottie.asset(AppImages.lottieLoading))
                   : (cardsViewModel.cards.isEmpty
                       ? const Text("Hozircha malumot yo'q")
                       : Expanded(
@@ -65,12 +78,15 @@ class HomePage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: [
                                           SizedBox(
-                                              height: 40,
-                                          child: Image.asset(AppImages.bankIcon[index]),
+                                            height: 40,
+                                            child: Image.asset(
+                                                AppImages.bankIcon[index]),
                                           ),
                                           Text(
                                             cardsViewModel
@@ -84,12 +100,14 @@ class HomePage extends StatelessWidget {
                                               height: 40,
                                               width: 60,
                                               decoration: BoxDecoration(
-                                                color:
-                                                    Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    image: DecorationImage(image: NetworkImage(cardsViewModel.cards[index].iconImage))
-                                              )),
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          cardsViewModel
+                                                              .cards[index]
+                                                              .iconImage)))),
                                         ],
                                       ),
                                       Container(
@@ -124,10 +142,12 @@ class HomePage extends StatelessWidget {
                                         margin: const EdgeInsets.only(
                                             left: 18, top: 15),
                                         child: Text(
-                                          hexcardnumber(cardsViewModel
-                                              .cards[index].cardNumber),
-                                          style: MyStyles.credic.copyWith(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400)
-                                        ),
+                                            hexcardnumber(cardsViewModel
+                                                .cards[index].cardNumber),
+                                            style: MyStyles.credic.copyWith(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w400)),
                                       ),
                                       const SizedBox(height: 10),
                                       Container(
@@ -139,11 +159,15 @@ class HomePage extends StatelessWidget {
                                               84,
                                         ),
                                         child: Text("01/24",
-                                            style: MyStyles.credic.copyWith(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w400)),
+                                            style: MyStyles.credic.copyWith(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w400)),
                                       ),
                                       const SizedBox(height: 5),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             margin: const EdgeInsets.only(
@@ -151,10 +175,14 @@ class HomePage extends StatelessWidget {
                                             ),
                                             child: Text(
                                               "Ibrohim Toxtasinov",
-                                              style: MyStyles.regular.copyWith(fontSize: 16, color: Colors.white,),
+                                              style: MyStyles.regular.copyWith(
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
-                                          const Icon(Icons.more_vert, color: Colors.white, size: 36),
+                                          const Icon(Icons.more_vert,
+                                              color: Colors.white, size: 36),
                                         ],
                                       ),
                                     ],
@@ -165,12 +193,6 @@ class HomePage extends StatelessWidget {
             },
           )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<CardsViewModel>().fetchCardsInfo();
-        },
-        child: const Icon(Icons.download),
       ),
     );
   }

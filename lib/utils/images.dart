@@ -7,6 +7,7 @@ class AppImages {
   static const imageKDBbank = "assets/images/kdb_bank.png";
   static const imageAllianceBank = "assets/images/alliance_bank.png";
   static const imageLLCbank = "assets/images/llc_bank.png";
+  static const lottieLoading = "assets/lotties/loading.json";
 
   static const List bankIcon = [
     imageHamkorBank,
